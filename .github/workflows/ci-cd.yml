@@ -55,6 +55,8 @@ jobs:
   deploy-frontend:
     needs: build-and-test
     runs-on: ubuntu-latest
+    permissions:
+      contents: write 
 
     steps:
       - name: Checkout code
