@@ -1,6 +1,7 @@
 {
   "name": "frontend",
   "private": true,
+  "homepage": "https://HernanZL.github.io/prediction-app/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
