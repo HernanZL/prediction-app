@@ -1,0 +1,17 @@
+# Entornos
+venv/
+.env/
+
+# Dependencias del frontend
+node_modules/
+
+# Archivos de modelo o dataset pesados
+*.csv
+*.xlsx
+*.pkl
+*.json
+
+# Archivos temporales
+__pycache__/
+*.log
+.DS_Store
