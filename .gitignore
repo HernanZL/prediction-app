@@ -9,7 +9,7 @@ node_modules/
 *.csv
 *.xlsx
 *.pkl
-*.json
+
 
 # Archivos temporales
 __pycache__/
