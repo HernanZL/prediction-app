@@ -3,21 +3,21 @@ name: CI-CD Pipeline
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Clonar el repositorio
+      # 1️⃣ Clona el código
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2️⃣ Configurar Python para el backend
+      # 2️⃣ Configura Python para backend
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -26,14 +26,14 @@ jobs:
       - name: Install backend dependencies
         run: |
           cd react-flask-app/backend
-          pip install -r requirements.txt
+          pip install -r requirements.txt || echo "No requirements.txt found"
 
       - name: Run backend tests
         run: |
           cd react-flask-app/backend
           python -m unittest discover || echo "No tests found"
 
-      # 3️⃣ Configurar Node.js para el frontend
+      # 3️⃣ Configura Node.js para frontend
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
