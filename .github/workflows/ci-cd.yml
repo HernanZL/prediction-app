@@ -3,46 +3,51 @@ name: CI-CD Pipeline
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: react-flask-app  # 👈 importante
+
     steps:
-      # 1️⃣ Clona el código
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2️⃣ Configura Python (backend)
+      # Backend
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
       - name: Install backend dependencies
-        working-directory: ./react-flask-app/backend
         run: |
+          cd backend
           pip install -r requirements.txt || echo "No requirements.txt found"
 
       - name: Run backend tests
-        working-directory: ./react-flask-app/backend
         run: |
+          cd backend
           python -m unittest discover || echo "No tests found"
 
-      # 3️⃣ Configura Node.js (frontend)
+      # Frontend
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "18"
 
       - name: Install frontend dependencies
-        working-directory: ./react-flask-app/frontend
-        run: npm install
+        run: |
+          cd frontend
+          npm install
 
       - name: Build frontend
-        working-directory: ./react-flask-app/frontend
-        run: npm run build
+        run: |
+          cd frontend
+          npm run build
