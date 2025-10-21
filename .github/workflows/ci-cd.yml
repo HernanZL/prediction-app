@@ -17,7 +17,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2️⃣ Configura Python para backend
+      # 2️⃣ Configura Python (backend)
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -33,7 +33,7 @@ jobs:
         run: |
           python -m unittest discover || echo "No tests found"
 
-      # 3️⃣ Configura Node.js para frontend
+      # 3️⃣ Configura Node.js (frontend)
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
