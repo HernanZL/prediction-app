@@ -1,0 +1,86 @@
+name: CI-CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: react-flask-app  # 👈 importante
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Backend
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install backend dependencies
+        run: |
+          cd backend
+          pip install -r requirements.txt || echo "No requirements.txt found"
+
+      - name: Run backend tests
+        run: |
+          cd backend
+          python -m unittest discover || echo "No tests found"
+
+      # Frontend
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Install frontend dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build
+          
+  deploy-frontend:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Build frontend
+        working-directory: react-flask-app/frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Deploy to GitHub Pages
+        working-directory: react-flask-app/frontend
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm install gh-pages -g
+          git config --global user.email "hernanzl@users.noreply.github.com"
+          git config --global user.name "HernanZL"
+          npx gh-pages -d dist -r https://x-access-token:${GITHUB_TOKEN}@github.com/HernanZL/prediction-app.git

@@ -1,0 +1,21 @@
+# Entornos
+venv/
+.env/
+
+# Dependencias del frontend
+node_modules/
+
+# Archivos de modelo o dataset pesados
+*.csv
+*.xlsx
+*.pkl
+
+
+# Archivos temporales
+__pycache__/
+*.log
+.DS_Store
+
+# Ignorar solo los modelos pesados
+/preprocesamiento/scripts/advanced_json_model.json
+/react-flask-app/backend/model/advanced_json_model.json
