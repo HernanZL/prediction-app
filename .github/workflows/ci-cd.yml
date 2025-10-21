@@ -61,6 +61,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -75,9 +77,10 @@ jobs:
 
       - name: Deploy to GitHub Pages
         working-directory: react-flask-app/frontend
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           npm install gh-pages -g
           git config --global user.email "hernanzl@users.noreply.github.com"
           git config --global user.name "HernanZL"
-          npm run deploy
-
+          npx gh-pages -d dist -r https://x-access-token:${GITHUB_TOKEN}@github.com/HernanZL/prediction-app.git
