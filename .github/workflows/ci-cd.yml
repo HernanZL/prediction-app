@@ -24,13 +24,13 @@ jobs:
           python-version: "3.10"
 
       - name: Install backend dependencies
+        working-directory: ./react-flask-app/backend
         run: |
-          cd react-flask-app/backend
           pip install -r requirements.txt || echo "No requirements.txt found"
 
       - name: Run backend tests
+        working-directory: ./react-flask-app/backend
         run: |
-          cd react-flask-app/backend
           python -m unittest discover || echo "No tests found"
 
       # 3️⃣ Configura Node.js para frontend
@@ -40,11 +40,9 @@ jobs:
           node-version: "18"
 
       - name: Install frontend dependencies
-        run: |
-          cd react-flask-app/frontend
-          npm install
+        working-directory: ./react-flask-app/frontend
+        run: npm install
 
       - name: Build frontend
-        run: |
-          cd react-flask-app/frontend
-          npm run build
+        working-directory: ./react-flask-app/frontend
+        run: npm run build
